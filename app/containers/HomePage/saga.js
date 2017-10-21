@@ -1,6 +1,7 @@
 /**
  * Gets the repositories of the user from Github
  */
+import {history} from '../../app'
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { LOAD_REPOS } from 'containers/App/constants';
@@ -20,6 +21,7 @@ export function* getRepos() {
   try {
     // Call our request helper (see 'utils/request')
     const repos = yield call(request, requestURL);
+      yield call(history.push, '/cmp1');
     yield put(reposLoaded(repos, username));
   } catch (err) {
     yield put(repoLoadingError(err));

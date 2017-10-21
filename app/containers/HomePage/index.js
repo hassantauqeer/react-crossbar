@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectRepos, makeSelectLoading, makeSelectError, makeSelectLocation } from 'containers/App/selectors';
 import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
 import AtPrefix from './AtPrefix';
@@ -46,6 +46,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       error,
       repos,
     };
+console.log(this.props.makeSelectLocation)
 
     return (
       <article>
@@ -119,6 +120,7 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectUsername(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
+    makeSelectLocation: makeSelectLocation(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
