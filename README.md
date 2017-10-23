@@ -31,4 +31,4 @@ change this line
 4. Then use that dispatched <italic>Autobahn Object</italic> wherever you want to <italic>subscribe</italic> in app like i did in <strong>HomePage</strong> container
 
 ## Collaborations
-A little work by me to help others, although there will be plenty of mistakes, thats why collaborations are highly welcomed. Thanks!
+A little work by me to help others, although there will be plenty of mistakes, thats why collaborations are highly Welcome. Thanks!
