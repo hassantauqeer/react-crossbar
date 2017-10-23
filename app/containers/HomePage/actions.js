@@ -16,7 +16,7 @@
  */
 
 import {
-  CHANGE_USERNAME,
+  CHANGE_USERNAME, CROSS_BAR
 } from './constants';
 
 /**
@@ -30,5 +30,11 @@ export function changeUsername(name) {
   return {
     type: CHANGE_USERNAME,
     name,
+  };
+}
+
+export function crossbar() {
+  return {
+    type: CROSS_BAR,
   };
 }

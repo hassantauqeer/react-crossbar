@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { makeSelectRepos, makeSelectLoading, makeSelectError, makeSelectLocation } from 'containers/App/selectors';
+import { makeSelectRepos, makeSelectLoading, makeSelectError, makeSelectLocation, makeSelectSession } from 'containers/App/selectors';
 import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
 import AtPrefix from './AtPrefix';
@@ -24,21 +24,31 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import { loadRepos } from '../App/actions';
-import { changeUsername } from './actions';
+import { changeUsername, crossbar } from './actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+// import { Link } from 'react-router';
+// import {auth} from '../../app';
 
+
+const getInitialState = function () {
+    return {
+        session: {
+            sessionList: []
+        }
+    }
+}
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
+    this.props.crossbar();
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
   }
-
   render() {
     const { loading, error, repos } = this.props;
     const reposListProps = {
@@ -46,9 +56,8 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       error,
       repos,
     };
-console.log(this.props.makeSelectLocation)
 
-    return (
+      return (
       <article>
         <Helmet>
           <title>Home Page</title>
@@ -58,6 +67,7 @@ console.log(this.props.makeSelectLocation)
           <CenteredSection>
             <H2>
               <FormattedMessage {...messages.startProjectHeader} />
+                {/*{this.props.session._id}*/}
             </H2>
             <p>
               <FormattedMessage {...messages.startProjectMessage} />
@@ -108,6 +118,7 @@ HomePage.propTypes = {
 export function mapDispatchToProps(dispatch) {
   return {
     onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
+      crossbar: () => dispatch(crossbar()),
     onSubmitForm: (evt) => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
@@ -118,7 +129,8 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   username: makeSelectUsername(),
-  loading: makeSelectLoading(),
+    // session: makeSelectSession(),
+    loading: makeSelectLoading(),
   error: makeSelectError(),
     makeSelectLocation: makeSelectLocation(),
 });

@@ -14,7 +14,7 @@ import { fromJS } from 'immutable';
 
 import {
   LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
+  LOAD_REPOS, AUTO_BAHN,
   LOAD_REPOS_ERROR,
 } from './constants';
 
@@ -26,6 +26,7 @@ const initialState = fromJS({
   userData: {
     repositories: false,
   },
+    session: false
 });
 
 function appReducer(state = initialState, action) {
@@ -35,15 +36,22 @@ function appReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', false)
         .setIn(['userData', 'repositories'], false);
+
     case LOAD_REPOS_SUCCESS:
       return state
         .setIn(['userData', 'repositories'], action.repos)
         .set('loading', false)
         .set('currentUser', action.username);
+
     case LOAD_REPOS_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);
+
+      case AUTO_BAHN:
+      console.log(action.val, "-------")
+          return state.set('session', action.val);
+      // return state.set('session', action.val);
     default:
       return state;
   }

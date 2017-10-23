@@ -16,7 +16,7 @@
  */
 
 import {
-  LOAD_REPOS,
+  LOAD_REPOS, AUTO_BAHN,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
 } from './constants';
@@ -59,5 +59,13 @@ export function repoLoadingError(error) {
   return {
     type: LOAD_REPOS_ERROR,
     error,
+  };
+}
+
+export function autoBahn(val) {
+  console.log(val)
+  return {
+    type: AUTO_BAHN,
+      val,
   };
 }

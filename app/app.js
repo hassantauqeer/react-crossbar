@@ -7,7 +7,7 @@
 
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
-
+import Autobahn from 'autobahn-react';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -16,7 +16,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
-
+import { autoBahn } from './containers/App/actions';
 // Import root app
 import App from 'containers/App';
 
@@ -65,7 +65,29 @@ const initialState = {};
 export const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+// // Select username from store
+Autobahn.Connection.onUnreachable((details) => {
+    console.log("sagas unreachable", details)
 
+    // this.setState({connectionWorking: false, connectionReason: "Oh it seems, the server is dead!"});
+});
+Autobahn.Connection.onLost((details) => {
+    console.log("sagas onlost", details)
+
+    // this.setState({connectionWorking: false, connectionReason: "Oh, connection lost :/ !"});
+});
+export const auth =  Autobahn.Connection.onReady((details) => {
+    console.log("sagas ready", details)
+    configureStore.dispatch(autoBahn(details))
+    // this.setState({connectionWorking: true});
+    Autobahn.subscribe('com.example.oncounter', function (args, kwargs, details) {
+        // store.dispatch(autoBahn(details[0]))
+        console.log(args, details)
+    })
+})
+Autobahn.browserInitialize(9080, "ws", "realm1")
+
+console.log("sagas ")
 const render = (messages) => {
   ReactDOM.render(
     <Provider store={store}>
