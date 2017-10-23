@@ -20,10 +20,10 @@ change this line
  ```bash
     return this.initialize('ws://' + document.location.hostname + ':' + port + '/' + path, realm);
  ```
- with your crossbar (ws://104.131.99.192:)
+ with your crossbar (localhoat)
 
  ```bash
-        return this.initialize('ws://104.131.99.192:' + port + '/' + path, realm);
+        return this.initialize('ws://localhost:' + port + '/' + path, realm);
  ```
  1. then go to <strong>app.js</strong> in <strong>app</strong>
 2. Import <strong>Autobahn</strong>
