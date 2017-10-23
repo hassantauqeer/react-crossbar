@@ -4,7 +4,7 @@
 </div>
 <br/>
 <div align="center"><strong>Start your next project with react-boilerplate and crossbar</strong></div>
-<div align="center">React-boilerplate doesn't need any introduction credit goes to <a href="https://github.com/mxstbr">mxstbr</a>, this repo is to describe implementation of crossbar in react-boilerplate</div>
+<div align="center">React-boilerplate doesn't need any introduction credit goes to <a href="https://github.com/mxstbr" target="_blank">mxstbr</a>, this repo is to describe implementation of crossbar in react-boilerplate</div>
 
 ## Crossbar Implementation
  ```bash
