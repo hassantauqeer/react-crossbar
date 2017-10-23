@@ -63,7 +63,6 @@ export function repoLoadingError(error) {
 }
 
 export function autoBahn(val) {
-  console.log(val)
   return {
     type: AUTO_BAHN,
       val,

@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-
+import { store } from '../../app';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { makeSelectRepos, makeSelectLoading, makeSelectError, makeSelectLocation, makeSelectSession } from 'containers/App/selectors';
@@ -24,21 +24,14 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 import { loadRepos } from '../App/actions';
-import { changeUsername, crossbar } from './actions';
-import { makeSelectUsername } from './selectors';
+import { changeUsername, crossbar, connectionData } from './actions';
+import { makeSelectUsername, makeSelectConnection } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 // import { Link } from 'react-router';
 // import {auth} from '../../app';
+import Autobahn from 'autobahn-react';
 
-
-const getInitialState = function () {
-    return {
-        session: {
-            sessionList: []
-        }
-    }
-}
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
@@ -49,6 +42,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       this.props.onSubmitForm();
     }
   }
+
+  componentDidUpdate(){
+      if(this.props.AutoBahnObject.Connection) {
+          this.props.AutoBahnObject.subscribe('com.example.oncounter', function (details) {
+              store.dispatch(connectionData(details));
+          })
+      }
+  }
   render() {
     const { loading, error, repos } = this.props;
     const reposListProps = {
@@ -56,7 +57,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       error,
       repos,
     };
-
       return (
       <article>
         <Helmet>
@@ -65,6 +65,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         </Helmet>
         <div>
           <CenteredSection>
+              <p>
+                  {this.props.connection}
+              </p>
             <H2>
               <FormattedMessage {...messages.startProjectHeader} />
                 {/*{this.props.session._id}*/}
@@ -119,6 +122,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
       crossbar: () => dispatch(crossbar()),
+      connectionData: (evt) => dispatch(connectionData(evt)),
     onSubmitForm: (evt) => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
@@ -129,8 +133,9 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   username: makeSelectUsername(),
-    // session: makeSelectSession(),
+    AutoBahnObject: makeSelectSession(),
     loading: makeSelectLoading(),
+    connection: makeSelectConnection(),
   error: makeSelectError(),
     makeSelectLocation: makeSelectLocation(),
 });

@@ -11,3 +11,4 @@
 
 export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
 export const CROSS_BAR = 'boilerplate/Home/CROSS_BAR';
+export const CONNECTION_DATA = 'boilerplate/Home/CONNECTION_DATA';

@@ -34,8 +34,8 @@ const makeSelectLocation = () => createSelector(
 );
 
 const makeSelectSession = () => createSelector(
-  selectRoute,
-  (routeState) => routeState.get('session').toObject()
+    selectGlobal,
+    (globalState) => globalState.get('session')
 );
 
 export {

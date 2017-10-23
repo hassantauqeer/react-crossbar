@@ -26,7 +26,7 @@ const initialState = fromJS({
   userData: {
     repositories: false,
   },
-    session: false
+    session: {}
 });
 
 function appReducer(state = initialState, action) {
@@ -49,7 +49,7 @@ function appReducer(state = initialState, action) {
         .set('loading', false);
 
       case AUTO_BAHN:
-      console.log(action.val, "-------")
+      // console.log(action.val, "-------")
           return state.set('session', action.val);
       // return state.set('session', action.val);
     default:

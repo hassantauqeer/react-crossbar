@@ -63,7 +63,7 @@ openSansObserver.load().then(() => {
 // Create redux store with history
 const initialState = {};
 export const history = createHistory();
-const store = configureStore(initialState, history);
+export const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 // // Select username from store
 Autobahn.Connection.onUnreachable((details) => {
@@ -76,18 +76,11 @@ Autobahn.Connection.onLost((details) => {
 
     // this.setState({connectionWorking: false, connectionReason: "Oh, connection lost :/ !"});
 });
-export const auth =  Autobahn.Connection.onReady((details) => {
-    console.log("sagas ready", details)
-    configureStore.dispatch(autoBahn(details))
-    // this.setState({connectionWorking: true});
-    Autobahn.subscribe('com.example.oncounter', function (args, kwargs, details) {
-        // store.dispatch(autoBahn(details[0]))
-        console.log(args, details)
-    })
+Autobahn.Connection.onReady((details) => {
+        store.dispatch(autoBahn(Autobahn))
 })
 Autobahn.browserInitialize(9080, "ws", "realm1")
 
-console.log("sagas ")
 const render = (messages) => {
   ReactDOM.render(
     <Provider store={store}>

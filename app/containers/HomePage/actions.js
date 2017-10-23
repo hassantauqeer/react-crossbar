@@ -16,7 +16,7 @@
  */
 
 import {
-  CHANGE_USERNAME, CROSS_BAR
+  CHANGE_USERNAME, CROSS_BAR, CONNECTION_DATA
 } from './constants';
 
 /**
@@ -36,5 +36,13 @@ export function changeUsername(name) {
 export function crossbar() {
   return {
     type: CROSS_BAR,
+  };
+}
+
+export function connectionData(val) {
+  console.log(val, '-------')
+  return {
+    type: CONNECTION_DATA,
+      val,
   };
 }
